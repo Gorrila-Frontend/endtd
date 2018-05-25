@@ -1,11 +1,10 @@
 import uuid from 'uuid';
-// Создаем событие 
-const addTodo = text => {
+
+const addTodo = (todo) => {
   return {
     type: 'ADD_TODO',
-    id: uuid(),
-    completed: false,
-    payload: { text },
+
+    payload: { todo },
   }
 };
 

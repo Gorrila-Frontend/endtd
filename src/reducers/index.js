@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 
 
-// экспортируем наш редюссер
 import  { todos } from './todos';
 
 export default combineReducers({
