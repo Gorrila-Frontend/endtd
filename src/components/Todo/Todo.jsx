@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addTodo} from '../../actions/actions';
-//импортируем наш таск
+import { 
+  addTodo, 
+  toggleTodo, 
+  deleteTodo, 
+  sortFilterActive, 
+  sortFilterCompleted,
+  allTodo,
+} from '../../actions/actions';
 import Task from '../Task/Task';
 import uuid from 'uuid';
 
@@ -10,65 +16,114 @@ class Todo extends Component {
   render() {
     return (
       <div>
-        <div
+        <header
           style={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
           }}
         >
-          <input
-           type='text'
-           id="exampleFormControlTextarea1"
-           /* ref для ссылки на инпут , стобы вывести в дальнейшем его значение*/
-           ref='task'
-           placeholder='add new task'
-           style={{
-             display: "block",
-             margin: "50px 30px 50px 0",
-             height: "35px",
-             width: "400px",
-             borderRadius: "2px",
-             border: "none",
-             borderBottom: "solid 1px #64FFDA",
-             background: "transparent",
-             color: "#000",
-             outline: "none",
+          <form
+          onSubmit={
+            (event) => event.preventDefault()
+          }
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <input
+            type='text'
+            ref='task'
+            placeholder='add new task'
+            style={{
+              display: "block",
+              margin: "50px 30px 50px 0",
+              height: "65px",
+              width: "400px",
+              borderRadius: "2px",
+              border: "none",
+              borderBottom: "solid 1px #64FFDA",
+              background: "transparent",
+              color: "#000",
+              outline: "none",
 
-           }}/>
-            <button
-              /*
-                На событие клик мы вызываем анонимную функцию а на вход пропсы addTodo
-                */
+            }}/>
+              <button
                 style={{
                   width: '105px',
                   height: '45px',
                 }}
-                type='button'
-                className='btn btn-success'
-                onClick={() => this.props.addTodo({
-                todo: {
-                  text: this.refs.task.value,
-                  completed: false,
-                  id: uuid(),
-                }
-              })} >
-                Add Task
+                  type='submit'
+                  className='btn btn-success'
+                  onClick={() => this.props.addTodo({
+                    id: uuid(),
+                    text: this.refs.task.value,
+                    completed: false,
+                    active: true,
+                  })
+              }>                
+                Add Task             
               </button>
-
-            </div>
-            <div>
-              <div style={{
+            </form>
+          </header>
+          <div
+            style={{
+              marginLeft: '50px',
+            }}
+          >
+          <button 
+            onClick={ () => this.props.allTodo(this.props.todos) }
+            style={{
+              marginRight:'10px',
+            }} 
+            type="button" 
+            className="btn btn-outline-primary">
+            All
+          </button>
+          <button 
+            onClick={() => this.props.sortFilterActive(this.props.todos)}
+            style={{
+              marginRight:'10px',
+            }} 
+            type="button" 
+            className="btn btn-outline-warning">
+            Active
+          </button>
+          <button 
+            onClick={() => this.props.sortFilterCompleted(!this.props.todos)}
+            style={{
+              marginRight:'10px',
+            }} 
+            type="button" 
+            className="btn btn-outline-success">
+            Completed
+          </button>
+          </div>
+            <div
+              style={{
+                width:'100%',
+                height:'100%',
                 display: 'flex',
-                justifyContent: 'center',
-                flexWrap: 'wrap',
-              }}> 
-                {
-                  this.props.todos.map((i, idx) => (<Task todo={i.todo} />))
-                }
-              </div>
-        </div>
-    </div>
+                flexBasis: '100%',
+                flefWrap: 'wrap',
+              }}
+            >
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                  {
+                    this.props.todos.map(todo => <Task key={todo.id} todo={ todo }/>)
+                  }
+                </div>
+          </div>
+      </div>
     )
   }
 }
@@ -76,4 +131,11 @@ export default connect(
   state => ({
     todos: state.todos
   }),
-  dispatch => bindActionCreators({ addTodo}, dispatch) )(Todo);
+  dispatch => bindActionCreators({ 
+    addTodo, 
+    toggleTodo, 
+    deleteTodo,
+    sortFilterActive,
+    sortFilterCompleted,
+    allTodo
+  }, dispatch) )(Todo);
