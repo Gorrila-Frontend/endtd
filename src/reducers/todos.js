@@ -19,13 +19,7 @@ const todos = (state = [], action) => {
    return state.filter(todo =>!todo.complited);
 
   case 'COMPLETED_SORT':
-    return state.filter(todo => {
-      if (todo.completed) {
-        return state.filter(todo => todo.completed)
-      } else {
-        state.map(todo => !todo.completed)
-      }
-    });   
+    return state.filter(todo => !todo.active.});   
 
   case 'ALL_TODO':
     return state;
