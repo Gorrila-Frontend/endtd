@@ -1,42 +1,35 @@
 import uuid from 'uuid';
 
-const addTodo = todo => {
+export const addTodo = (text) => {
   return {
     type: 'ADD_TODO',
-    payload: { todo },
+    id: uuid(),
+    completed: false,
+    active: true,
+    payload: { text }
   }
-};
+}
 
-const toggleTodo = id => {
+export const toggleTodo = id => {
   return {
     type: 'TOGGLE_TODO',
     payload: { id },
   }
 }
-const deleteTodo = id => {
+export const deleteTodo = id => {
   return {
     type: 'DELETE_TODO',
     payload: { id },
   }
 }
 
-const sortFilterActive = id => {
-  return {
-    type: 'ACTIVE_SORT',
-    payload: { id },
-  }
-}
-const sortFilterCompleted = id => {
-  return {
-    type: 'COMPLETED_SORT',
-    payload: { id }, 
-  }
-}
+export const setVisibilityFilter = filter => ({
+  type: 'SET_VISIBILITY_FILTER',
+  filter
+})
 
-const allTodo = id=> {
-  return {
-    type: 'ALL_TODO',
-    payload: { id },
-  }
+export const VisibilityFilters = {
+  SHOW_ALL: 'SHOW_ALL',
+  SHOW_COMPLETED: 'SHOW_COMPLETED',
+  SHOW_ACTIVE: 'SHOW_ACTIVE'
 }
-export { addTodo, toggleTodo, deleteTodo, sortFilterActive, sortFilterCompleted,allTodo }

@@ -1,9 +1,10 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux'
+import todos from './todos'
+import filters from './filters';
 
-
-import  todos from './todos';
-
-export default combineReducers({
-  todos,
+const todoApp = combineReducers({
+  todos:todos,
+  filters:filters
 })
- // это комбайн редюсеров
+
+export default todoApp;
